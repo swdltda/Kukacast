@@ -21,14 +21,19 @@ type Formulario = {
 export function FormularioInscricao({ workshopId }: { workshopId: string }) {
   const [form, setForm] = useState<Formulario>({ nome: '', email: '', telefone: '', data_nascimento: '', cidade: '' });
   const [carregando, setCarregando] = useState(false);
+  const [mensagem, setMensagem] = useState('');
   const navigate = useNavigate();
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setCarregando(true);
+    setMensagem('');
     try {
-      await registrarInscricao(form, workshopId);
-      navigate('/comunidade');
+      const resposta = await registrarInscricao(form, workshopId);
+      setMensagem(resposta.mensagem);
+      if (resposta.sucesso) {
+        setTimeout(() => navigate('/comunidade'), 1000);
+      }
     } finally {
       setCarregando(false);
     }
@@ -55,6 +60,8 @@ export function FormularioInscricao({ workshopId }: { workshopId: string }) {
           </label>
         ))}
       </div>
+
+      {mensagem && <p className="text-sm text-orange-300">{mensagem}</p>}
 
       <button className="button-primary soft-pulse mt-2 px-4 py-3 text-sm" disabled={carregando}>
         {carregando ? 'Enviando...' : 'Confirmar inscrição'}

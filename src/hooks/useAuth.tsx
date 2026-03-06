@@ -11,7 +11,7 @@ interface AuthContexto {
 const AuthContext = createContext<AuthContexto | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [autenticado, setAutenticado] = useState<boolean>(usuarioEhAdmin() || Boolean(localStorage.getItem('kuka-participante-email')));
+  const [autenticado, setAutenticado] = useState<boolean>(Boolean(localStorage.getItem('kuka-participante-email')));
   const [admin, setAdmin] = useState<boolean>(usuarioEhAdmin());
 
   const value = useMemo(
@@ -21,7 +21,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       entrar: async (email: string, senha: string) => {
         await login(email, senha);
         setAutenticado(true);
-        setAdmin(email === 'admin@kukacast.com');
+        setAdmin(usuarioEhAdmin());
       },
       sair: async () => {
         await logout();

@@ -11,6 +11,10 @@ import { ComunidadePage } from '@/pages/ComunidadePage';
 import { AreaParticipantePage } from '@/pages/AreaParticipantePage';
 import { LoginAdminPage } from '@/pages/LoginAdminPage';
 import { AdminResumoPage } from '@/pages/AdminResumoPage';
+import { AdminEpisodiosPage } from '@/pages/AdminEpisodiosPage';
+import { AdminWorkshopsPage } from '@/pages/AdminWorkshopsPage';
+import { AdminParticipantesPage } from '@/pages/AdminParticipantesPage';
+import { AdminConfiguracoesPage } from '@/pages/AdminConfiguracoesPage';
 
 export const router = createBrowserRouter([
   {
@@ -26,11 +30,17 @@ export const router = createBrowserRouter([
       { path: 'comunidade', element: <ComunidadePage /> },
       { path: 'area-do-participante', element: <AreaParticipantePage /> },
       { path: 'login-admin', element: <LoginAdminPage /> },
-      {
-        path: 'admin',
-        element: <LayoutAdmin />,
-        children: [{ index: true, element: <AdminResumoPage /> }],
-      },
+    ],
+  },
+  {
+    path: '/admin',
+    element: <LayoutAdmin />,
+    children: [
+      { index: true, element: <AdminResumoPage /> },
+      { path: 'episodios', element: <AdminEpisodiosPage /> },
+      { path: 'workshops', element: <AdminWorkshopsPage /> },
+      { path: 'participantes', element: <AdminParticipantesPage /> },
+      { path: 'configuracoes', element: <AdminConfiguracoesPage /> },
     ],
   },
 ]);

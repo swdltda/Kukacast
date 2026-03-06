@@ -34,6 +34,13 @@ export interface Convidado {
   bio: string;
 }
 
+export interface EpisodioConvidado {
+  id: string;
+  episodio_id: string;
+  convidado_id: string;
+  convidado?: Convidado;
+}
+
 export interface Workshop {
   id: string;
   titulo: string;
@@ -53,4 +60,25 @@ export interface InscricaoWorkshop {
   workshop_id: string;
   data_inscricao: string;
   presenca: boolean;
+}
+
+export interface ConfiguracaoSite {
+  id: string;
+  chave: string;
+  valor: string;
+  descricao: string | null;
+  atualizado_em: string;
+}
+
+export interface ConfiguracoesHome {
+  titulo_home: string;
+  subtitulo_home: string;
+  descricao_home: string;
+  botao_primario_texto: string;
+  botao_primario_link: string;
+  botao_secundario_texto: string;
+  botao_secundario_link: string;
+  imagem_hero: string;
+  texto_sobre_projeto: string;
+  texto_comunidade: string;
 }

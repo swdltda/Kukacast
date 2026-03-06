@@ -1,29 +1,37 @@
-import { Hero } from '@/components/Hero';
+import { useEffect, useState } from 'react';
+import { HeroBanner } from '@/components/HeroBanner';
 import { CardEpisodio } from '@/components/CardEpisodio';
 import { CardWorkshop } from '@/components/CardWorkshop';
 import { SecaoCTA } from '@/components/SecaoCTA';
-import { episodiosIniciais, workshopsIniciais } from '@/data/episodios-iniciais';
+import { SecaoSobre } from '@/components/SecaoSobre';
+import { SecaoTemporada } from '@/components/SecaoTemporada';
+import { SecaoComunidade } from '@/components/SecaoComunidade';
+import { listarEpisodios, listarWorkshops, obterConfiguracoesHome } from '@/services/api';
+import type { ConfiguracoesHome, Episodio, Workshop } from '@/types/dominio';
 
 export function HomePage() {
+  const [episodios, setEpisodios] = useState<Episodio[]>([]);
+  const [workshops, setWorkshops] = useState<Workshop[]>([]);
+  const [configuracoes, setConfiguracoes] = useState<ConfiguracoesHome | null>(null);
+
+  useEffect(() => {
+    void Promise.all([listarEpisodios(), listarWorkshops(), obterConfiguracoesHome()]).then(([eps, wks, cfg]) => {
+      setEpisodios(eps);
+      setWorkshops(wks);
+      setConfiguracoes(cfg);
+    });
+  }, []);
+
+  if (!configuracoes) return <section className="section-card">Carregando...</section>;
+
   return (
     <>
-      <Hero />
+      <HeroBanner configuracoes={configuracoes} />
 
       <section className="grid gap-4 md:grid-cols-3">
-        <article className="section-card">
-          <h2 className="text-xl font-bold">Sobre o projeto</h2>
-          <p className="mt-2 text-zinc-300">
-            O Kuka Cast integra podcast, workshops e tecnologia para fortalecer o letramento digital de forma acessível e estratégica.
-          </p>
-        </article>
-        <article className="section-card">
-          <h2 className="text-xl font-bold">Temporada atual</h2>
-          <p className="mt-2 text-zinc-300">12 episódios com temas essenciais para cidadania digital e uso crítico da tecnologia.</p>
-        </article>
-        <article className="section-card">
-          <h2 className="text-xl font-bold">Comunidade ativa</h2>
-          <p className="mt-2 text-zinc-300">Participe de encontros, receba materiais e troque experiências com outros participantes.</p>
-        </article>
+        <SecaoSobre texto={configuracoes.texto_sobre_projeto} />
+        <SecaoTemporada />
+        <SecaoComunidade texto={configuracoes.texto_comunidade} />
       </section>
 
       <section className="space-y-4">
@@ -32,7 +40,7 @@ export function HomePage() {
           <p className="text-sm text-zinc-400">Conteúdo atualizado</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {episodiosIniciais.slice(0, 6).map((ep) => (
+          {episodios.slice(0, 6).map((ep) => (
             <CardEpisodio key={ep.id} episodio={ep} />
           ))}
         </div>
@@ -41,7 +49,7 @@ export function HomePage() {
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">Workshops</h2>
         <div className="grid gap-4 md:grid-cols-2">
-          {workshopsIniciais.map((wk) => (
+          {workshops.map((wk) => (
             <CardWorkshop key={wk.id} workshop={wk} />
           ))}
         </div>
