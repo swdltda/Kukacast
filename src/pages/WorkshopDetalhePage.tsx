@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { FormularioInscricao } from '@/components/FormularioInscricao';
-import { obterWorkshopPorSlug } from '@/services/api';
-import { episodiosIniciais } from '@/data/episodios-iniciais';
-import type { Workshop } from '@/types/dominio';
+import { listarEpisodios, obterWorkshopPorSlug } from '@/services/api';
+import type { Episodio, Workshop } from '@/types/dominio';
 
 export function WorkshopDetalhePage() {
   const { slug = '' } = useParams();
   const [workshop, setWorkshop] = useState<Workshop | null>(null);
-  useEffect(() => void obterWorkshopPorSlug(slug).then(setWorkshop), [slug]);
-  if (!workshop) return <p>Workshop não encontrado.</p>;
+  const [episodioRelacionado, setEpisodioRelacionado] = useState<Episodio | null>(null);
 
-  const episodioRelacionado = episodiosIniciais.find((ep) => ep.id === workshop.episodio_relacionado);
+  useEffect(() => {
+    void obterWorkshopPorSlug(slug).then((wk) => {
+      setWorkshop(wk);
+      if (!wk?.episodio_relacionado) return;
+      void listarEpisodios().then((eps) => setEpisodioRelacionado(eps.find((ep) => ep.id === wk.episodio_relacionado) ?? null));
+    });
+  }, [slug]);
+  if (!workshop) return <p>Workshop não encontrado.</p>;
 
   return (
     <section className="space-y-5">

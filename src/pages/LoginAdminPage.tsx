@@ -7,6 +7,7 @@ export function LoginAdminPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('admin@kukacast.com');
   const [senha, setSenha] = useState('123456');
+  const [erro, setErro] = useState('');
 
   return (
     <section className="mx-auto w-full max-w-md">
@@ -21,11 +22,17 @@ export function LoginAdminPage() {
           <span>Senha</span>
           <input type="password" className="input-base" value={senha} onChange={(e) => setSenha(e.target.value)} />
         </label>
+        {erro && <p className="text-sm text-red-300">{erro}</p>}
         <button
           className="button-primary w-full px-4 py-3"
           onClick={async () => {
-            await entrar(email, senha);
-            navigate('/admin');
+            try {
+              setErro('');
+              await entrar(email, senha);
+              navigate('/admin');
+            } catch {
+              setErro('Falha no login ou usuário sem perfil admin.');
+            }
           }}
         >
           Entrar
