@@ -126,7 +126,7 @@ export async function salvarConfiguracoesHome(configuracoes: ConfiguracoesHome) 
   );
 }
 
-export async function registrarInscricao(dados: Omit<Usuario, 'id' | 'tipo_usuario' | 'data_cadastro'>, workshopId: string) {
+export async function registrarInscricao(dados: Omit<Usuario, 'id' | 'tipo_usuario' | 'data_cadastro' | 'ativo'>, workshopId: string) {
   if (!supabaseConfig.habilitado) {
     return { sucesso: true, mensagem: 'Modo demonstração sem Supabase configurado.' };
   }
@@ -135,7 +135,7 @@ export async function registrarInscricao(dados: Omit<Usuario, 'id' | 'tipo_usuar
   let usuarioId = usuarios[0]?.id;
 
   if (!usuarioId) {
-    const retornoUsuario = await supabaseInsert<Usuario>('usuarios', { ...dados, tipo_usuario: 'participante' });
+    const retornoUsuario = await supabaseInsert<Usuario>('usuarios', { ...dados, tipo_usuario: 'participante', ativo: true });
     usuarioId = retornoUsuario[0]?.id;
   }
 

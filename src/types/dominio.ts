@@ -8,7 +8,8 @@ export interface Usuario {
   data_nascimento: string;
   cidade: string;
   tipo_usuario: TipoUsuario;
-  data_cadastro: string;
+  ativo: boolean;
+  data_cadastro?: string;
 }
 
 export interface Episodio {

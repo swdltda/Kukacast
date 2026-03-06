@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router';
+import { useAuth } from '@/hooks/useAuth';
 
 const links = [
   { label: 'Sobre', to: '/sobre' },
@@ -8,6 +9,8 @@ const links = [
 ];
 
 export function HeaderPublico() {
+  const { usuarioAuth } = useAuth();
+
   return (
     <header className="fixed top-0 z-40 w-full border-b border-orange-100/10 bg-[#120d0b]/65 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
@@ -26,6 +29,26 @@ export function HeaderPublico() {
               {link.label}
             </NavLink>
           ))}
+
+          {usuarioAuth ? (
+            <NavLink
+              to="/area-do-participante"
+              className={({ isActive }) =>
+                `rounded-full px-3 py-1.5 font-medium transition hover:bg-orange-500/20 hover:text-orange-100 ${isActive ? 'bg-orange-500/30 text-orange-100' : ''}`
+              }
+            >
+              Minha área
+            </NavLink>
+          ) : (
+            <>
+              <NavLink to="/login" className="rounded-full px-3 py-1.5 font-medium transition hover:bg-orange-500/20 hover:text-orange-100">
+                Entrar
+              </NavLink>
+              <NavLink to="/cadastro" className="rounded-full bg-orange-500/30 px-3 py-1.5 font-medium text-orange-100 transition hover:bg-orange-500/40">
+                Cadastrar
+              </NavLink>
+            </>
+          )}
         </nav>
       </div>
     </header>

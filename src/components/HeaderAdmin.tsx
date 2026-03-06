@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
 export function HeaderAdmin() {
-  const { sair } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -14,7 +14,7 @@ export function HeaderAdmin() {
       <button
         className="button-secondary px-4 py-2 text-sm"
         onClick={async () => {
-          await sair();
+          await logout();
           navigate('/login-admin');
         }}
       >
