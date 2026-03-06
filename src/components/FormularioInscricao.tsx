@@ -2,8 +2,24 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { registrarInscricao } from '@/services/api';
 
+const campos: Array<{ chave: keyof Formulario; label: string; tipo?: string }> = [
+  { chave: 'nome', label: 'Nome completo' },
+  { chave: 'email', label: 'E-mail', tipo: 'email' },
+  { chave: 'telefone', label: 'Telefone' },
+  { chave: 'data_nascimento', label: 'Data de nascimento', tipo: 'date' },
+  { chave: 'cidade', label: 'Cidade' },
+];
+
+type Formulario = {
+  nome: string;
+  email: string;
+  telefone: string;
+  data_nascimento: string;
+  cidade: string;
+};
+
 export function FormularioInscricao({ workshopId }: { workshopId: string }) {
-  const [form, setForm] = useState({ nome: '', email: '', telefone: '', data_nascimento: '', cidade: '' });
+  const [form, setForm] = useState<Formulario>({ nome: '', email: '', telefone: '', data_nascimento: '', cidade: '' });
   const [carregando, setCarregando] = useState(false);
   const navigate = useNavigate();
 
@@ -19,18 +35,28 @@ export function FormularioInscricao({ workshopId }: { workshopId: string }) {
   }
 
   return (
-    <form className="mt-6 grid gap-3" onSubmit={onSubmit}>
-      {Object.entries(form).map(([chave, valor]) => (
-        <input
-          key={chave}
-          required
-          className="rounded border border-zinc-700 bg-zinc-950 px-3 py-2"
-          placeholder={chave.replace('_', ' ')}
-          value={valor}
-          onChange={(e) => setForm((atual) => ({ ...atual, [chave]: e.target.value }))}
-        />
-      ))}
-      <button className="rounded bg-orange-500 px-4 py-2 font-semibold text-black" disabled={carregando}>
+    <form className="section-card mt-6 grid gap-4" onSubmit={onSubmit}>
+      <div>
+        <h2 className="text-xl font-bold">Inscrição no workshop</h2>
+        <p className="mt-1 text-sm text-zinc-400">Preencha os dados para garantir sua vaga.</p>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        {campos.map(({ chave, label, tipo }) => (
+          <label key={chave} className="space-y-1.5 text-sm text-zinc-200">
+            <span>{label}</span>
+            <input
+              required
+              type={tipo ?? 'text'}
+              className="input-base"
+              value={form[chave]}
+              onChange={(e) => setForm((atual) => ({ ...atual, [chave]: e.target.value }))}
+            />
+          </label>
+        ))}
+      </div>
+
+      <button className="button-primary soft-pulse mt-2 px-4 py-3 text-sm" disabled={carregando}>
         {carregando ? 'Enviando...' : 'Confirmar inscrição'}
       </button>
     </form>
