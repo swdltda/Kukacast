@@ -5,6 +5,9 @@ import { FelipeCosta } from "./pages/felipe-costa";
 import { Workshops } from "./pages/workshops";
 import { AreaParticipante } from "./pages/area-do-participante";
 import { PainelAdministrativo } from "./pages/painel-administrativo";
+import { Confirmacao } from "./pages/confirmacao";
+import { LoginParticipante } from "./pages/login-participante";
+import { LoginAdmin } from "./pages/login-admin";
 import { RootLayout } from "./components/root-layout";
 
 export const router = createBrowserRouter([
@@ -18,6 +21,9 @@ export const router = createBrowserRouter([
       { path: "workshops", Component: Workshops },
       { path: "area-do-participante", Component: AreaParticipante },
       { path: "painel-administrativo", Component: PainelAdministrativo },
+      { path: "confirmacao", Component: Confirmacao },
+      { path: "login-participante", Component: LoginParticipante },
+      { path: "login-admin", Component: LoginAdmin },
     ],
   },
 ]);

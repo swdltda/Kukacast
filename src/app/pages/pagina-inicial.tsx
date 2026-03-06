@@ -1,7 +1,9 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useState } from "react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { participantesAPI } from "../lib/api";
 import {
   MessageSquare,
   Cpu,
@@ -11,9 +13,42 @@ import {
   Users,
   Award,
   ArrowRight,
+  AlertCircle,
 } from "lucide-react";
 
 export function PaginaInicial() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+    data_nascimento: "",
+    cidade: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      await participantesAPI.register(formData);
+      navigate(`/confirmacao?nome=${encodeURIComponent(formData.nome)}`);
+    } catch (err: any) {
+      setError(err.message || "Falha ao registrar. Tente novamente.");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -284,7 +319,7 @@ export function PaginaInicial() {
               Transforme sua relação com a tecnologia
             </p>
           </div>
-          <form className="bg-white rounded-2xl p-8 text-gray-900">
+          <form className="bg-white rounded-2xl p-8 text-gray-900" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label htmlFor="nome" className="block text-sm font-medium mb-2">
@@ -297,6 +332,8 @@ export function PaginaInicial() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Seu nome"
                   required
+                  value={formData.nome}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -310,6 +347,8 @@ export function PaginaInicial() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="seu@email.com"
                   required
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -325,6 +364,8 @@ export function PaginaInicial() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="(00) 00000-0000"
                   required
+                  value={formData.telefone}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -337,6 +378,8 @@ export function PaginaInicial() {
                   name="data_nascimento"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
+                  value={formData.data_nascimento}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -351,13 +394,22 @@ export function PaginaInicial() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Sua cidade"
                 required
+                value={formData.cidade}
+                onChange={handleChange}
               />
             </div>
+            {error && (
+              <div className="mb-6 text-red-500 text-sm flex items-center gap-2">
+                <AlertCircle size={16} />
+                {error}
+              </div>
+            )}
             <button
               type="submit"
               className="w-full px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg"
+              disabled={loading}
             >
-              Quero participar do workshop
+              {loading ? "Carregando..." : "Quero participar do workshop"}
             </button>
           </form>
         </div>
