@@ -9,18 +9,18 @@ const links = [
 
 export function HeaderPublico() {
   return (
-    <header className="fixed top-0 z-30 w-full border-b border-white/10 bg-black/25 backdrop-blur-xl">
+    <header className="fixed top-0 z-40 w-full border-b border-orange-100/10 bg-[#120d0b]/65 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-5 px-4 py-4 sm:px-6">
-        <Link to="/" className="text-lg font-bold tracking-wide text-orange-300 sm:text-xl">
-          Kuka Cast
+        <Link to="/" className="text-lg font-black tracking-wide text-orange-100 sm:text-xl">
+          KUKA <span className="text-orange-400">CAST</span>
         </Link>
-        <nav className="flex flex-wrap items-center justify-end gap-2 text-xs text-zinc-200 sm:gap-3 sm:text-sm">
+        <nav className="flex flex-wrap items-center justify-end gap-2 text-xs text-orange-50/90 sm:gap-3 sm:text-sm">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `rounded-lg px-3 py-1.5 transition hover:bg-zinc-800/75 hover:text-orange-200 ${isActive ? 'bg-zinc-900/70 text-orange-300' : ''}`
+                `rounded-full px-3 py-1.5 font-medium transition hover:bg-orange-500/20 hover:text-orange-100 ${isActive ? 'bg-orange-500/30 text-orange-100' : ''}`
               }
             >
               {link.label}

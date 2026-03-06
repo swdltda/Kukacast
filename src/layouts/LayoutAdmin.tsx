@@ -8,9 +8,9 @@ export function LayoutAdmin() {
   if (!admin) return <Navigate to="/login-admin" replace />;
 
   return (
-    <div className="mx-auto grid min-h-screen w-full max-w-7xl gap-4 px-4 py-6 md:grid-cols-[260px_1fr]">
+    <div className="mx-auto grid min-h-screen w-full max-w-7xl gap-4 px-4 py-6 md:grid-cols-[280px_1fr]">
       <SidebarAdmin />
-      <div className="space-y-4">
+      <div className="space-y-4 rounded-3xl border border-orange-100/10 bg-[#130d0b]/75 p-4">
         <HeaderAdmin />
         <Outlet />
       </div>
