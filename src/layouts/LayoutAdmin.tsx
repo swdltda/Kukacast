@@ -7,7 +7,7 @@ export function LayoutAdmin() {
   if (!admin) return <Navigate to="/login-admin" replace />;
 
   return (
-    <div className="grid gap-4 md:grid-cols-[260px_1fr]">
+    <div className="grid gap-4 md:grid-cols-[280px_1fr]">
       <MenuAdmin />
       <Outlet />
     </div>

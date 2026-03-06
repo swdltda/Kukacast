@@ -9,17 +9,28 @@ export function LoginAdminPage() {
   const [senha, setSenha] = useState('123456');
 
   return (
-    <section className="max-w-md space-y-3">
-      <h1 className="text-2xl font-bold">Login administrativo</h1>
-      <input className="w-full rounded border border-zinc-700 bg-zinc-950 px-3 py-2" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" className="w-full rounded border border-zinc-700 bg-zinc-950 px-3 py-2" value={senha} onChange={(e) => setSenha(e.target.value)} />
-      <button
-        className="rounded bg-orange-500 px-4 py-2 font-semibold text-black"
-        onClick={async () => {
-          await entrar(email, senha);
-          navigate('/admin');
-        }}
-      >Entrar</button>
+    <section className="mx-auto w-full max-w-md">
+      <div className="section-card space-y-4">
+        <h1 className="text-2xl font-bold">Login administrativo</h1>
+        <p className="text-sm text-zinc-400">Acesso restrito para gestão de conteúdo e configurações da plataforma.</p>
+        <label className="space-y-1.5 text-sm">
+          <span>E-mail</span>
+          <input className="input-base" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <label className="space-y-1.5 text-sm">
+          <span>Senha</span>
+          <input type="password" className="input-base" value={senha} onChange={(e) => setSenha(e.target.value)} />
+        </label>
+        <button
+          className="button-primary w-full px-4 py-3"
+          onClick={async () => {
+            await entrar(email, senha);
+            navigate('/admin');
+          }}
+        >
+          Entrar
+        </button>
+      </div>
     </section>
   );
 }

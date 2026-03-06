@@ -3,7 +3,6 @@ import { LayoutPublico } from '@/layouts/LayoutPublico';
 import { LayoutAdmin } from '@/layouts/LayoutAdmin';
 import { HomePage } from '@/pages/HomePage';
 import { SobrePage } from '@/pages/SobrePage';
-import { FelipeCostaPage } from '@/pages/FelipeCostaPage';
 import { EpisodiosPage } from '@/pages/EpisodiosPage';
 import { EpisodioDetalhePage } from '@/pages/EpisodioDetalhePage';
 import { WorkshopsPage } from '@/pages/WorkshopsPage';
@@ -20,7 +19,6 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: 'sobre', element: <SobrePage /> },
-      { path: 'felipe-costa', element: <FelipeCostaPage /> },
       { path: 'episodios', element: <EpisodiosPage /> },
       { path: 'episodio/:slug', element: <EpisodioDetalhePage /> },
       { path: 'workshops', element: <WorkshopsPage /> },

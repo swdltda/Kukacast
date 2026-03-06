@@ -3,11 +3,20 @@ import { Link } from 'react-router';
 
 export function CardEpisodio({ episodio }: { episodio: Episodio }) {
   return (
-    <article className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
-      <img src={episodio.thumbnail} alt={episodio.titulo} className="mb-3 h-44 w-full rounded object-cover" />
-      <h3 className="font-semibold">{episodio.titulo}</h3>
-      <p className="mt-1 text-sm text-zinc-400">{episodio.tema}</p>
-      <Link className="mt-3 inline-block text-sm text-orange-300" to={`/episodio/${episodio.slug}`}>Ver episódio</Link>
+    <article className="glass-card group rounded-2xl p-4 transition duration-300 hover:-translate-y-1 hover:border-orange-300/45 hover:shadow-xl hover:shadow-black/30">
+      <div className="overflow-hidden rounded-xl">
+        <img
+          src={episodio.thumbnail}
+          alt={episodio.titulo}
+          className="h-44 w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+        />
+      </div>
+      <p className="mt-4 text-xs uppercase tracking-[0.16em] text-orange-200/80">Episódio</p>
+      <h3 className="mt-2 text-lg font-semibold leading-snug">{episodio.titulo}</h3>
+      <p className="mt-2 text-sm text-zinc-400">{episodio.tema}</p>
+      <Link className="mt-5 inline-flex items-center text-sm font-semibold text-orange-300" to={`/episodio/${episodio.slug}`}>
+        Ver episódio →
+      </Link>
     </article>
   );
 }
