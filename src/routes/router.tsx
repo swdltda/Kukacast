@@ -17,6 +17,7 @@ import { AdminEpisodiosPage } from '@/pages/AdminEpisodiosPage';
 import { AdminWorkshopsPage } from '@/pages/AdminWorkshopsPage';
 import { AdminParticipantesPage } from '@/pages/AdminParticipantesPage';
 import { AdminConfiguracoesPage } from '@/pages/AdminConfiguracoesPage';
+import { AdminConteudosPage } from '@/pages/AdminConteudosPage';
 import { AdminRoute } from '@/routes/AdminRoute';
 
 export const router = createBrowserRouter([
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
           { path: 'workshops', element: <AdminWorkshopsPage /> },
           { path: 'participantes', element: <AdminParticipantesPage /> },
           { path: 'configuracoes', element: <AdminConfiguracoesPage /> },
+          { path: 'conteudos', element: <AdminConteudosPage /> },
         ],
       },
     ],

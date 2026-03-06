@@ -6,6 +6,7 @@ const itens = [
   { to: '/admin/workshops', label: 'Workshops' },
   { to: '/admin/participantes', label: 'Participantes' },
   { to: '/admin/configuracoes', label: 'Configurações do site' },
+  { to: '/admin/conteudos', label: 'Conteúdos e catálogo' },
 ];
 
 export function SidebarAdmin() {

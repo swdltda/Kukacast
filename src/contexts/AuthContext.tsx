@@ -10,6 +10,7 @@ import {
   type DadosCadastro,
 } from '@/services/authService';
 import type { Usuario } from '@/types/dominio';
+import { ADMIN_ALPHA_EMAIL, ADMIN_ALPHA_ID } from '@/services/adminService';
 
 interface AuthContexto {
   usuarioAuth: AuthUser | null;
@@ -73,7 +74,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       usuarioAuth,
       perfil,
       loading,
-      isAdmin: perfil?.tipo_usuario === 'admin',
+      isAdmin:
+        perfil?.tipo_usuario === 'admin' ||
+        (usuarioAuth?.id === ADMIN_ALPHA_ID && usuarioAuth?.email?.trim().toLowerCase() === ADMIN_ALPHA_EMAIL),
       login: async (email, senha) => {
         setLoading(true);
         try {

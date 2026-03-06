@@ -114,16 +114,29 @@ export async function salvarConfiguracoesHome(configuracoes: ConfiguracoesHome) 
     entradas.map(async ({ chave, valor }) => {
       const itemExistente = await supabaseSelect<ConfiguracaoSite>('configuracoes_site', { filters: [`chave=eq.${chave}`] });
       if (itemExistente.length) {
-        await supabaseUpdate<ConfiguracaoSite>(
-          'configuracoes_site',
-          { valor, atualizado_em: new Date().toISOString() },
-          [`chave=eq.${chave}`],
-        );
+        await supabaseUpdate<ConfiguracaoSite>('configuracoes_site', { valor, atualizado_em: new Date().toISOString() }, [`chave=eq.${chave}`]);
       } else {
         await supabaseInsert<ConfiguracaoSite>('configuracoes_site', { chave, valor });
       }
     }),
   );
+}
+
+export async function listarTabelaGenerica(tabela: string) {
+  if (!supabaseConfig.habilitado) return [] as Record<string, unknown>[];
+  return supabaseSelect<Record<string, unknown>>(tabela);
+}
+
+export async function criarRegistroGenerico(tabela: string, payload: Record<string, unknown>) {
+  return supabaseInsert<Record<string, unknown>>(tabela, payload);
+}
+
+export async function atualizarRegistroGenerico(tabela: string, id: string, payload: Record<string, unknown>) {
+  return supabaseUpdate<Record<string, unknown>>(tabela, payload, [`id=eq.${id}`]);
+}
+
+export async function excluirRegistroGenerico(tabela: string, id: string) {
+  return supabaseDelete(tabela, [`id=eq.${id}`]);
 }
 
 export async function registrarInscricao(dados: Omit<Usuario, 'id' | 'tipo_usuario' | 'data_cadastro' | 'ativo'>, workshopId: string) {
@@ -135,7 +148,13 @@ export async function registrarInscricao(dados: Omit<Usuario, 'id' | 'tipo_usuar
   let usuarioId = usuarios[0]?.id;
 
   if (!usuarioId) {
-    const retornoUsuario = await supabaseInsert<Usuario>('usuarios', { ...dados, tipo_usuario: 'participante', ativo: true });
+    const retornoUsuario = await supabaseInsert<Usuario>('usuarios', {
+      ...dados,
+      telefone: dados.telefone || 'Não informado',
+      cidade: dados.cidade || 'Não informado',
+      data_nascimento: dados.data_nascimento || '1900-01-01',
+      tipo_usuario: 'participante',
+    });
     usuarioId = retornoUsuario[0]?.id;
   }
 
