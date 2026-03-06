@@ -127,3 +127,16 @@ a {
   opacity: 0.5;
   pointer-events: none;
 }
+
+
+.editorial-surface {
+  border-radius: 2rem;
+  border: 1px solid rgba(251, 191, 116, 0.18);
+  background: linear-gradient(180deg, rgba(20, 12, 10, 0.72), rgba(14, 9, 8, 0.58));
+  padding: 1.6rem;
+}
+
+.soft-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(251, 146, 60, 0.4), transparent);
+}

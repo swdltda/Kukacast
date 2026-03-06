@@ -8,7 +8,7 @@ export interface Usuario {
   data_nascimento: string;
   cidade: string;
   tipo_usuario: TipoUsuario;
-  ativo: boolean;
+  ativo?: boolean;
   data_cadastro?: string;
 }
 

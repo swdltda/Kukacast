@@ -26,19 +26,28 @@ export function HomePage() {
     <>
       <HeroPrincipal configuracoes={configuracoes} />
 
-      <section className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+      <section className="grid gap-5 lg:grid-cols-[1.35fr_1fr]">
         <SecaoSobreProjeto texto={configuracoes.texto_sobre_projeto} />
-        <article className="section-card space-y-3">
+        <article className="editorial-surface space-y-3">
           <p className="text-xs uppercase tracking-[0.2em] text-orange-200/70">Comunidade</p>
           <h3 className="text-2xl font-bold text-orange-50">Rede viva Kuka Cast</h3>
-          <p className="text-sm text-orange-100/75">{configuracoes.texto_comunidade}</p>
-          <a className="button-secondary inline-flex px-4 py-2" href="https://chat.whatsapp.com/G5pgNz1V1aOBuhJMOrjM0o" target="_blank" rel="noreferrer">Entrar no grupo</a>
+          <p className="text-sm leading-relaxed text-orange-100/75">{configuracoes.texto_comunidade}</p>
+          <a
+            className="button-secondary inline-flex px-4 py-2"
+            href="https://chat.whatsapp.com/G5pgNz1V1aOBuhJMOrjM0o"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Entrar no grupo
+          </a>
         </article>
       </section>
 
+      <div className="soft-divider" />
       <SecaoOuvirAgora episodios={episodios} />
+      <div className="soft-divider" />
 
-      <section className="space-y-4">
+      <section className="space-y-5">
         <div className="flex items-end justify-between gap-4">
           <h2 className="editorial-title text-3xl font-black text-orange-50">Workshops e experiências</h2>
           <p className="text-sm text-orange-100/65">Formações práticas conectadas aos episódios</p>

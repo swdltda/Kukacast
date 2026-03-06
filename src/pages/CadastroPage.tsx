@@ -43,6 +43,11 @@ export function CadastroPage() {
       return;
     }
 
+    if (!form.telefone.trim() || !form.cidade.trim() || !form.data_nascimento) {
+      setErro('Preencha telefone, cidade e data de nascimento para concluir seu cadastro.');
+      return;
+    }
+
     try {
       const { requerConfirmacaoEmail } = await cadastro({
         ...form,
@@ -116,7 +121,7 @@ export function CadastroPage() {
 
           <label className="space-y-1.5 text-sm">
             <span>Telefone</span>
-            <input className="input-base" value={form.telefone} onChange={(e) => setForm((old) => ({ ...old, telefone: e.target.value }))} />
+            <input className="input-base" value={form.telefone} onChange={(e) => setForm((old) => ({ ...old, telefone: e.target.value }))} required />
           </label>
 
           <label className="space-y-1.5 text-sm">
@@ -126,12 +131,13 @@ export function CadastroPage() {
               className="input-base"
               value={form.data_nascimento}
               onChange={(e) => setForm((old) => ({ ...old, data_nascimento: e.target.value }))}
+              required
             />
           </label>
 
           <label className="space-y-1.5 text-sm sm:col-span-2">
             <span>Cidade</span>
-            <input className="input-base" value={form.cidade} onChange={(e) => setForm((old) => ({ ...old, cidade: e.target.value }))} />
+            <input className="input-base" value={form.cidade} onChange={(e) => setForm((old) => ({ ...old, cidade: e.target.value }))} required />
           </label>
         </div>
 
