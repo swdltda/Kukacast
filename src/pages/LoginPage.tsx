@@ -1,21 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
 export function LoginPage() {
-  const { login, loading } = useAuth();
+  const { login, loading, usuarioAuth } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
+
+  useEffect(() => {
+    if (!loading && usuarioAuth) navigate('/area-do-participante', { replace: true });
+  }, [loading, navigate, usuarioAuth]);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setErro('');
 
     try {
-      await login(email, senha);
-      navigate('/area-do-participante');
+      await login(email.trim().toLowerCase(), senha);
+      navigate('/area-do-participante', { replace: true });
     } catch {
       setErro('Não foi possível entrar. Verifique e-mail e senha.');
     }
@@ -29,12 +33,12 @@ export function LoginPage() {
 
         <label className="space-y-1.5 text-sm">
           <span>E-mail</span>
-          <input type="email" className="input-base" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="email" className="input-base" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
         </label>
 
         <label className="space-y-1.5 text-sm">
           <span>Senha</span>
-          <input type="password" className="input-base" value={senha} onChange={(e) => setSenha(e.target.value)} required />
+          <input type="password" className="input-base" value={senha} onChange={(e) => setSenha(e.target.value)} required autoComplete="current-password" />
         </label>
 
         {erro && <p className="text-sm text-red-300">{erro}</p>}

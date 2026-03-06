@@ -24,9 +24,6 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Link to="/admin" className="button-secondary px-3 py-1.5 text-orange-100">
-            Admin
-          </Link>
         </nav>
       </div>
     </header>

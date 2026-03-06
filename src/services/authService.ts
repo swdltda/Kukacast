@@ -30,6 +30,8 @@ export async function cadastrarComEmailSenha(dados: DadosCadastro) {
     },
   });
 
+  if (resposta.error) throw resposta.error;
+
   const userId = resposta.data.user?.id;
   if (userId) {
     await upsertPerfil({

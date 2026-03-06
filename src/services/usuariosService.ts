@@ -9,11 +9,6 @@ export async function buscarPerfilPorId(id: string): Promise<Usuario | null> {
   return perfis[0] ?? null;
 }
 
-export async function buscarPerfilPorEmail(email: string): Promise<Usuario | null> {
-  const perfis = await supabaseSelect<Usuario>('usuarios', { filters: [`email=eq.${email}`] });
-  return perfis[0] ?? null;
-}
-
 export async function upsertPerfil(payload: PerfilPayload): Promise<Usuario> {
   const existente = await buscarPerfilPorId(payload.id);
 
