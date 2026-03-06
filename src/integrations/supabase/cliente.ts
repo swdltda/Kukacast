@@ -3,6 +3,10 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const AUTH_STORAGE_KEY = 'kuka-auth-session';
 
+function canUseBrowserStorage() {
+  return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+}
+
 export const supabaseConfig = {
   url: supabaseUrl,
   anonKey: supabaseAnonKey,
@@ -30,13 +34,15 @@ type AuthListener = (event: AuthChangeEvent, session: AuthSession | null) => voi
 const listeners = new Set<AuthListener>();
 
 function readStoredSession(): AuthSession | null {
-  const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+  if (!canUseBrowserStorage()) return null;
+
+  const raw = window.localStorage.getItem(AUTH_STORAGE_KEY);
   if (!raw) return null;
 
   try {
     return JSON.parse(raw) as AuthSession;
   } catch {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    window.localStorage.removeItem(AUTH_STORAGE_KEY);
     return null;
   }
 }
@@ -46,8 +52,10 @@ function emitAuthChange(event: AuthChangeEvent, session: AuthSession | null) {
 }
 
 function saveSession(session: AuthSession | null, event: AuthChangeEvent) {
-  if (session) localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
-  else localStorage.removeItem(AUTH_STORAGE_KEY);
+  if (canUseBrowserStorage()) {
+    if (session) window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
+    else window.localStorage.removeItem(AUTH_STORAGE_KEY);
+  }
 
   emitAuthChange(event, session);
 }

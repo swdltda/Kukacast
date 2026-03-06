@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -6,6 +6,7 @@ type FormCadastro = {
   nome: string;
   email: string;
   senha: string;
+  confirmarSenha: string;
   telefone: string;
   cidade: string;
   data_nascimento: string;
@@ -15,6 +16,7 @@ const initialForm: FormCadastro = {
   nome: '',
   email: '',
   senha: '',
+  confirmarSenha: '',
   telefone: '',
   cidade: '',
   data_nascimento: '',
@@ -22,18 +24,31 @@ const initialForm: FormCadastro = {
 
 export function CadastroPage() {
   const navigate = useNavigate();
-  const { cadastro, loading } = useAuth();
+  const { cadastro, loading, usuarioAuth } = useAuth();
   const [form, setForm] = useState<FormCadastro>(initialForm);
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
+
+  useEffect(() => {
+    if (!loading && usuarioAuth) navigate('/area-do-participante', { replace: true });
+  }, [loading, navigate, usuarioAuth]);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setErro('');
     setSucesso('');
 
+    if (form.senha !== form.confirmarSenha) {
+      setErro('A confirmação de senha não confere.');
+      return;
+    }
+
     try {
-      const { requerConfirmacaoEmail } = await cadastro(form);
+      const { requerConfirmacaoEmail } = await cadastro({
+        ...form,
+        email: form.email.trim().toLowerCase(),
+      });
+
       if (requerConfirmacaoEmail) {
         setSucesso('Cadastro realizado. Confira seu e-mail para confirmar a conta antes de entrar.');
         setForm(initialForm);
@@ -41,7 +56,7 @@ export function CadastroPage() {
       }
 
       setSucesso('Cadastro concluído com sucesso! Redirecionando para sua área...');
-      setTimeout(() => navigate('/area-do-participante'), 1200);
+      setTimeout(() => navigate('/area-do-participante', { replace: true }), 1200);
     } catch {
       setErro('Não foi possível concluir o cadastro. Verifique os dados e tente novamente.');
     }
@@ -68,6 +83,7 @@ export function CadastroPage() {
               className="input-base"
               value={form.email}
               onChange={(e) => setForm((old) => ({ ...old, email: e.target.value }))}
+              autoComplete="email"
               required
             />
           </label>
@@ -80,6 +96,20 @@ export function CadastroPage() {
               value={form.senha}
               onChange={(e) => setForm((old) => ({ ...old, senha: e.target.value }))}
               minLength={6}
+              autoComplete="new-password"
+              required
+            />
+          </label>
+
+          <label className="space-y-1.5 text-sm sm:col-span-2">
+            <span>Confirmar senha</span>
+            <input
+              type="password"
+              className="input-base"
+              value={form.confirmarSenha}
+              onChange={(e) => setForm((old) => ({ ...old, confirmarSenha: e.target.value }))}
+              minLength={6}
+              autoComplete="new-password"
               required
             />
           </label>

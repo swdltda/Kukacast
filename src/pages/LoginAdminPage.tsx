@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
 
 export function LoginAdminPage() {
-  const { login, isAdmin, loading } = useAuth();
+  const { login, isAdmin, loading, logout } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -21,8 +21,9 @@ export function LoginAdminPage() {
           event.preventDefault();
           setErro('');
           try {
-            const perfilLogado = await login(email, senha);
+            const perfilLogado = await login(email.trim().toLowerCase(), senha);
             if (perfilLogado?.tipo_usuario !== 'admin') {
+              await logout();
               setErro('Seu usuário não possui acesso administrativo.');
               return;
             }
