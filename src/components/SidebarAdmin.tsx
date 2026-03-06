@@ -10,7 +10,7 @@ const itens = [
 
 export function SidebarAdmin() {
   return (
-    <aside className="glass-card rounded-2xl p-5">
+    <aside className="rounded-3xl border border-orange-200/10 bg-[#120d0b]/95 p-5 shadow-2xl shadow-black/50">
       <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.16em] text-orange-200">Painel Kuka Cast</h3>
       <ul className="space-y-2 text-sm">
         {itens.map((item) => (
@@ -19,7 +19,7 @@ export function SidebarAdmin() {
               to={item.to}
               end={item.to === '/admin'}
               className={({ isActive }) =>
-                `block rounded-lg px-3 py-2 transition hover:bg-zinc-800/75 hover:text-zinc-100 ${isActive ? 'bg-zinc-800 text-orange-300' : 'text-zinc-300'}`
+                `block rounded-xl px-3 py-2 transition hover:bg-orange-500/15 hover:text-orange-100 ${isActive ? 'bg-orange-500/20 text-orange-200' : 'text-orange-100/75'}`
               }
             >
               {item.label}

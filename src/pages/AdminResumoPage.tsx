@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { DashboardAdmin } from '@/components/DashboardAdmin';
 import { listarEpisodios, listarInscricoes, listarUsuarios, listarWorkshops } from '@/services/api';
 
 export function AdminResumoPage() {
@@ -10,14 +11,5 @@ export function AdminResumoPage() {
     });
   }, []);
 
-  return (
-    <section className="space-y-6">
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="metric-card">Total de episódios<strong>{totais.episodios}</strong></div>
-        <div className="metric-card">Total de workshops<strong>{totais.workshops}</strong></div>
-        <div className="metric-card">Total de inscritos<strong>{totais.inscritos}</strong></div>
-        <div className="metric-card">Total de usuários<strong>{totais.usuarios}</strong></div>
-      </div>
-    </section>
-  );
+  return <DashboardAdmin {...totais} />;
 }
